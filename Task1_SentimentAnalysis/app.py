@@ -9,21 +9,24 @@ from nltk.corpus import stopwords
 nltk.download('stopwords')
 STOPWORDS = set(stopwords.words('english'))
 
-# ✅ Load Model & Vectorizer
-model = joblib.load("models/sentiment_model.pkl")
-vectorizer = joblib.load("models/tfidf_vectorizer.pkl")
+#  Load Model & Vectorizer
+import os
 
-# ✅ Your TMDB API Key
+base_path = os.path.dirname(__file__)  
+model = joblib.load(os.path.join(base_path, "models", "sentiment_model.pkl"))
+vectorizer = joblib.load(os.path.join(base_path, "models", "tfidf_vectorizer.pkl"))
+
+#  Your TMDB API Key
 TMDB_KEY = "51449b09dc7e1486f4fda013d6066edf"
 
-# ✅ Clean review text
+#  Clean review text
 def clean_text(text):
     text = text.lower()
     text = re.sub(r'[^a-z\s]', '', text)
     tokens = [word for word in text.split() if word not in STOPWORDS]
     return " ".join(tokens)
 
-# ✅ Step1: Convert IMDB → TMDB ID
+#  Step1: Convert IMDB → TMDB ID
 def imdb_to_tmdb_id(imdb_id):
     url = f"https://api.themoviedb.org/3/find/{imdb_id}?api_key={TMDB_KEY}&external_source=imdb_id"
     r = requests.get(url).json()
@@ -31,7 +34,7 @@ def imdb_to_tmdb_id(imdb_id):
         return r["movie_results"][0]["id"]
     return None
 
-# ✅ Step2: Fetch ALL Reviews from TMDB
+#  Step2: Fetch ALL Reviews from TMDB
 def get_tmdb_reviews(tmdb_id):
     reviews = []
     page = 1
@@ -53,7 +56,7 @@ def get_tmdb_reviews(tmdb_id):
     return reviews
 
 
-# ✅ Step3: Get movie details (Poster + Title + Release year)
+#  Step3: Get movie details (Poster + Title + Release year)
 def get_movie_details(tmdb_id):
     url = f"https://api.themoviedb.org/3/movie/{tmdb_id}?api_key={TMDB_KEY}"
     data = requests.get(url).json()
@@ -64,7 +67,7 @@ def get_movie_details(tmdb_id):
     return title, release_date[:4], poster_url
 
 
-# ✅ Streamlit UI
+#  Streamlit UI
 st.set_page_config(page_title="🎬 Movie Sentiment Analyzer", page_icon="🎥")
 st.title("🎬 Movie Sentiment Analyzer")
 
@@ -74,7 +77,7 @@ st.markdown("Analyze real audience reviews and determine whether they express po
 option = st.radio("Choose Input:", ["✍️ Write a Review", "🔗 Movie Link"])
 
 
-# ✅ Manual Review Mode
+#  Manual Review Mode
 if option == "✍️ Write a Review":
     review = st.text_area("Write your review here:")
 
@@ -99,7 +102,7 @@ if option == "✍️ Write a Review":
         )
 
 
-# ✅ Movie Link Mode
+#  Movie Link Mode
 else:
     link = st.text_input("Paste IMDb Link (example: https://www.imdb.com/title/tt0111161/)")
 
@@ -116,7 +119,7 @@ else:
             st.error("❌ Movie not found on TMDB!")
             st.stop()
 
-        # ✅ Show Movie Details
+        #  Show Movie Details
         title, year, poster = get_movie_details(tmdb_id)
         st.markdown(f"## 🎬 {title} ({year})")
         if poster:
@@ -150,5 +153,5 @@ else:
             """, unsafe_allow_html=True
         )
 
-
+        
 
