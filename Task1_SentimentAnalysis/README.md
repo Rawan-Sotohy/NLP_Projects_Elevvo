@@ -20,6 +20,7 @@ Finally, the model will be deployed in an interactive web app that allows users 
 - **nltk**, **spacy**
 - **scikit-learn**
 - **matplotlib**, **seaborn**, **wordcloud**
+- **TMDB/IMDb API Integration**
 - **streamlit**
 
 ---
