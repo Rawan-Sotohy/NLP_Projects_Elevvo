@@ -9,21 +9,21 @@ from nltk.corpus import stopwords
 nltk.download('stopwords')
 STOPWORDS = set(stopwords.words('english'))
 
-#  Load Model & Vectorizer
+# ✅ Load Model & Vectorizer
 model = joblib.load("models/sentiment_model.pkl")
 vectorizer = joblib.load("models/tfidf_vectorizer.pkl")
 
-#  Your TMDB API Key
+# ✅ Your TMDB API Key
 TMDB_KEY = "51449b09dc7e1486f4fda013d6066edf"
 
-#  Clean review text
+# ✅ Clean review text
 def clean_text(text):
     text = text.lower()
     text = re.sub(r'[^a-z\s]', '', text)
     tokens = [word for word in text.split() if word not in STOPWORDS]
     return " ".join(tokens)
 
-#  Step1: Convert IMDB → TMDB ID
+# ✅ Step1: Convert IMDB → TMDB ID
 def imdb_to_tmdb_id(imdb_id):
     url = f"https://api.themoviedb.org/3/find/{imdb_id}?api_key={TMDB_KEY}&external_source=imdb_id"
     r = requests.get(url).json()
@@ -31,7 +31,7 @@ def imdb_to_tmdb_id(imdb_id):
         return r["movie_results"][0]["id"]
     return None
 
-#  Step2: Fetch ALL Reviews from TMDB
+# ✅ Step2: Fetch ALL Reviews from TMDB
 def get_tmdb_reviews(tmdb_id):
     reviews = []
     page = 1
@@ -53,16 +53,30 @@ def get_tmdb_reviews(tmdb_id):
     return reviews
 
 
-#  Streamlit UI
+# ✅ Step3: Get movie details (Poster + Title + Release year)
+def get_movie_details(tmdb_id):
+    url = f"https://api.themoviedb.org/3/movie/{tmdb_id}?api_key={TMDB_KEY}"
+    data = requests.get(url).json()
+    title = data.get("title", "Unknown Movie")
+    release_date = data.get("release_date", "N/A")
+    poster_path = data.get("poster_path")
+    poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
+    return title, release_date[:4], poster_url
+
+
+# ✅ Streamlit UI
 st.set_page_config(page_title="🎬 Movie Sentiment Analyzer", page_icon="🎥")
-st.title("🎬 Movie Sentiment Analysis")
-st.markdown("Analyze real audience reviews and determine whether they express positive or negative sentiment!")
+st.title("🎬 Movie Sentiment Analyzer")
+
+st.markdown("Analyze real audience reviews and determine whether they express positive or negative sentiment!😊")
+
 
 option = st.radio("Choose Input:", ["✍️ Write a Review", "🔗 Movie Link"])
 
-#  Manual Review
+
+# ✅ Manual Review Mode
 if option == "✍️ Write a Review":
-    review = st.text_area("Write your review:")
+    review = st.text_area("Write your review here:")
 
     if st.button("Analyze"):
         if not review.strip():
@@ -72,10 +86,7 @@ if option == "✍️ Write a Review":
         clean_r = clean_text(review)
         pred = model.predict(vectorizer.transform([clean_r]))[0]
 
-        if pred == 1:
-            sentiment, color = ("🌟 Positive 😊", "#4CAF50")
-        else:
-            sentiment, color = ("💔 Negative 😞", "#E74C3C")
+        sentiment, color = ("🌟 Positive 😊", "#4CAF50") if pred == 1 else ("💔 Negative 😞", "#E74C3C")
 
         st.markdown(
             f"""
@@ -88,14 +99,14 @@ if option == "✍️ Write a Review":
         )
 
 
-#  Movie Link
+# ✅ Movie Link Mode
 else:
     link = st.text_input("Paste IMDb Link (example: https://www.imdb.com/title/tt0111161/)")
 
     if st.button("Analyze Movie"):
         match = re.search(r"(tt\d+)", link)
         if not match:
-            st.error("❌ Invalid IMDb link! Example: https://www.imdb.com/title/tt1234567/")
+            st.error("❌ Invalid IMDb link!")
             st.stop()
 
         imdb_id = match.group(1)
@@ -104,6 +115,12 @@ else:
         if not tmdb_id:
             st.error("❌ Movie not found on TMDB!")
             st.stop()
+
+        # ✅ Show Movie Details
+        title, year, poster = get_movie_details(tmdb_id)
+        st.markdown(f"## 🎬 {title} ({year})")
+        if poster:
+            st.image(poster, width=300)
 
         reviews = get_tmdb_reviews(tmdb_id)
 
@@ -119,12 +136,9 @@ else:
             neg += (pred == 0)
 
         total = pos + neg
-        percent = (pos / total) * 100
+        percent_pos = (pos / total) * 100
 
-        if pos > neg:
-            sentiment, color = ("🌟 Overall Positive 😊", "#4CAF50")
-        else:
-            sentiment, color = ("💔 Overall Negative 😞", "#E74C3C")
+        sentiment, color = ("🌟 Overall Positive 😊", "#4CAF50") if pos > neg else ("💔 Overall Negative 😞", "#E74C3C")
 
         st.markdown(
             f"""
@@ -135,5 +149,6 @@ else:
             </div>
             """, unsafe_allow_html=True
         )
+
 
 
