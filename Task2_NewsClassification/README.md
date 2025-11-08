@@ -79,14 +79,17 @@ Here are some screenshots of the application in action:
 
 ---
 **Sample 2:**
+
 ![Prediction Example](images/sci-tech.jpg)  
 
 ---
 **Sample 3:**
+
 ![Prediction Example](images/world.jpg)  
 
 ---
 **Sample 4:**
+
 ![Prediction Example](images/business.jpg)  
 
 ---
