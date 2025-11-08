@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: news-classification
-    env: python
-    buildCommand: pip install -r news-classification/requirements.txt
-    startCommand: gunicorn app:app
-    workingDirectory: news-classification
