@@ -74,6 +74,7 @@ Here are some screenshots of the application in action:
 
 ---
 **Sample 1:**
+
 ![Prediction Example](images/sports.jpg)  
 
 ---
