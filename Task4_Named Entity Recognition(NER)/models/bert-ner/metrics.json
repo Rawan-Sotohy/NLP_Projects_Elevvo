@@ -1,0 +1,20 @@
+{
+  "model": "bert-base-cased",
+  "dataset": "CoNLL-2003",
+  "test_results": {
+    "f1": 0.8451269522729256,
+    "precision": 0.8325597386969228,
+    "recall": 0.8580793763288448
+  },
+  "training_params": {
+    "learning_rate": 5e-05,
+    "batch_size": 16,
+    "epochs": 3,
+    "weight_decay": 0.01
+  },
+  "dataset_stats": {
+    "train_sentences": 14041,
+    "val_sentences": 3250,
+    "test_sentences": 3453
+  }
+}
