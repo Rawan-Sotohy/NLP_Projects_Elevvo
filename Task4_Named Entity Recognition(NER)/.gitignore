@@ -6,25 +6,15 @@ __pycache__/
 .Python
 *.egg-info/
 
-# Virtual Environment
+# Virtual environments
 venv/
 env/
 ENV/
+.venv
 
-# Jupyter
+# Jupyter Notebook
 .ipynb_checkpoints/
 *.ipynb_checkpoints
-
-# Data (don't commit large files)
-data/*.txt
-data/*.csv
-data/*.json
-
-# Models (too large for git)
-models/**/*.bin
-models/**/*.pt
-models/**/*.pth
-models/**/*.h5
 
 # IDE
 .vscode/
@@ -32,12 +22,46 @@ models/**/*.h5
 *.swp
 .DS_Store
 
-# Logs
-*.log
-wandb/
+# ================================
+# MODEL FILES (TOO LARGE!) 🚫
+# ================================
+# BERT model binaries
+models/**/*.bin
+models/**/*.safetensors
+models/**/*.pth
+models/**/*.pt
+models/**/*.h5
+models/**/training_args.bin
+models/**/vocab.txt
+models/**/pytorch_model.bin
 
-# models
-models/
-*.pt
-*.bin
-*.pth
+# Keep only configs (small files)
+!models/**/config.json
+!models/**/tokenizer_config.json
+!models/**/special_tokens_map.json
+!models/**/metrics.json
+
+# ================================
+# TRAINING OUTPUTS
+# ================================
+results/
+logs/
+checkpoint-*/
+**/checkpoint-*/
+notebooks/results/
+notebooks/logs/
+
+# ================================
+# DATA FILES
+# ================================
+data/*.txt
+data/**/*.txt
+*.csv
+*.tsv
+
+# ================================
+# OTHER
+# ================================
+*.log
+.env
+.cache/
