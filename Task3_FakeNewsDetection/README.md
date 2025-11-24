@@ -32,21 +32,17 @@ It contains two CSV files:
 ## 📸 Screenshots
 Here are some screenshots of the application in action:
 
-**Home Page:**
-
-![Home Page](Task3_FakeNewsDetection/images/app.jpg)  
-
----
-
-**Real:**
-
-![Real News Prediction](Task3_FakeNewsDetection/images/real.jpg)  
+**Home Page**
+![Home Page](https://raw.githubusercontent.com/Rawan-Sotohy/NLP_Projects_Elevvo/main/Task3_FakeNewsDetection/images/app.jpg)
 
 ---
 
-**Fake:**
-
-![Fake News Prediction](Task3_FakeNewsDetection/images/fake.jpg)  
+**Real**
+![Real News Prediction](https://raw.githubusercontent.com/Rawan-Sotohy/NLP_Projects_Elevvo/main/Task3_FakeNewsDetection/images/real.jpg)
 
 ---
+
+**Fake**
+![Fake News Prediction](https://raw.githubusercontent.com/Rawan-Sotohy/NLP_Projects_Elevvo/main/Task3_FakeNewsDetection/images/fake.jpg)
+
 
