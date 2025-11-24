@@ -1,6 +1,6 @@
 # 🧠 Elevvo NLP Internship Projects
 
-This repository contains all **8 NLP projects** completed during my internship with **Elevvo**.  
+This repository contains all **4 NLP projects** completed during my internship with **Elevvo**.  
 Each task explores a different Natural Language Processing (NLP) concept — from sentiment analysis to transformers — building a full **end-to-end NLP portfolio**.
 
 ---
@@ -23,11 +23,7 @@ NLP-Internship-Projects/
 ├── Task1_SentimentAnalysis/
 ├── Task2_NewsClassification/
 ├── Task3_FakeNewsDetection/
-├── Task4_NER/
-├── Task5_TopicModeling/
-├── Task6_QuestionAnswering/
-├── Task7_TextSummarization/
-└── Task8_ResumeScreening/
+└── Task4_NER/
 ```
 ---
 ## 🧰 Tech Stack
