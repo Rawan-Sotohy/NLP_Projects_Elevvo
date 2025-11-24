@@ -35,3 +35,9 @@ models/**/*.h5
 # Logs
 *.log
 wandb/
+
+# models
+models/
+*.pt
+*.bin
+*.pth
